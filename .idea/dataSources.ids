@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - r3d@localhost" uuid="d9ad97b2-3c87-4741-b664-799ba18eaafa">
+    <database-info product="MySQL" version="5.5.38" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
+    <schema name="" catalog="r3d"/>
+  </data-source>
+</component>

@@ -8,8 +8,10 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
+            'enableCookieValidation' => false,
+            'enableCsrfValidation' => false,
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '',
+//            'cookieValidationKey' => '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -42,7 +44,7 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+if (YII_ENV_DEV && false) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = 'yii\debug\Module';
