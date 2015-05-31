@@ -6,17 +6,21 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+	'language' => 'ru_RU',
     'components' => [
         'request' => [
             'enableCookieValidation' => false,
             'enableCsrfValidation' => false,
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-//            'cookieValidationKey' => '',
         ],
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false
+		],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+			'class' => 'app\components\WebUser',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],

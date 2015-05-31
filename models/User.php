@@ -2,102 +2,66 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
-{
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
+use yii\db\Query;
+use yii\web\IdentityInterface;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+class User extends ActiveRecord implements IdentityInterface {
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+	public static function search() {
+		$query = (new Query())->select('u.*, r.name as role_name')->from('user as u')
+			->leftJoin('role as r', 'u.role_id = r.id');
+		return new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => [
+				'pageSize' => 10
+			],
+			'sort' => [
+				'attributes' => [
+					'id', 'login', 'name', 'surname', 'role_name'
+				]
+			]
+		]);
+	}
+
+	public static function tableName() {
+		return 'user';
+	}
+
+	public function attributeLabels() {
+		return [
+			'id' => '#',
+			'login' => 'Логин',
+			'name' => 'Имя',
+			'surname' => 'Фамилия',
+			'role_id' => 'Роль',
+			'role_name' => 'Роль',
+		];
+	}
+
+	public static function findIdentity($id) {
+		return static::findOne([ 'id' => $id ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+    public function getId() {
+        return $this->getAttribute('id');
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+    public function validatePassword($password) {
+		return \Yii::$app->getSecurity()->validatePassword($this->getAttribute('password'), $password);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	public static function findIdentityByAccessToken($token, $type = null) {
+		return null;
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
+	public function getAuthKey() {
+		return null;
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
-    }
+	public function validateAuthKey($authKey) {
+		return false;
+	}
 }
