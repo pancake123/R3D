@@ -1,11 +1,11 @@
 <?php
 /**
  * @var $this yii\web\View
- * @var $model app\forms\PermissionForm
+ * @var $model app\forms\GroupForm
  */
 ?>
 <?= \app\widgets\FlashMessenger::widget() ?>
-<?= \app\widgets\AdminNav::widget() ?>
+<?= \app\widgets\FileNav::widget() ?>
 <br>
 <div class="col-xs-12">
 	<div class="col-xs-8">
@@ -15,7 +15,7 @@
 					'class' => '\yii\grid\ActionColumn',
 					'buttons' => [
 						'update' => function($url, $model) {
-							return \yii\helpers\Html::a('Редактировать', [ 'permission/edit', 'id' => $model['id'] ], [
+							return \yii\helpers\Html::a('Редактировать', [ 'group/edit', 'id' => $model['id'] ], [
 								'class' => 'btn btn-primary btn-xs'
 							]);
 						},
@@ -32,16 +32,16 @@
 					'template' => '{update} {delete}',
 				]
 			],
-			'dataProvider' => \app\models\Permission::search()
+			'dataProvider' => \app\models\Group::search()
 		]) ?>
 	</div>
 	<br>
 	<div class="col-xs-4">
 		<div class="panel panel-primary">
-			<div class="panel-heading">Новая привилегия</div>
+			<div class="panel-heading">Новая группа</div>
 			<div class="panel-body">
 				<?php $form = \yii\bootstrap\ActiveForm::begin([
-					'action' => [ 'permission/create' ]
+					'action' => [ 'group/create' ]
 				]) ?>
 				<?= $form->field($model, 'id')->textInput() ?>
 				<?= $form->field($model, 'name')->textInput() ?>

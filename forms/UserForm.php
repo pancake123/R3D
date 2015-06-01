@@ -2,7 +2,9 @@
 
 namespace app\forms;
 
+use app\models\Role;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class UserForm extends Model {
 
@@ -21,8 +23,14 @@ class UserForm extends Model {
 			[ 'name', 'string', 'max' => 30 ],
 			[ 'password', 'string', 'max' => 50 ],
 
-			/* site.user.new */
-			[ [ 'login', 'password', 'surname', 'name', 'role_id' ], 'required', 'on' => 'site.user.new' ],
+			/* site.user.create */
+			[ [ 'login', 'password', 'surname', 'name', 'role_id' ], 'required', 'on' => 'site.user.create' ],
+
+			/* site.user.update */
+			[ [ 'id', 'login', 'surname', 'name', 'role_id' ], 'required', 'on' => 'site.user.update' ],
+			[ 'password', 'safe', 'on' => 'site.user.update', 'when' => function($model) {
+				return !empty($model->password);
+			} ]
 		];
 	}
 
@@ -35,5 +43,9 @@ class UserForm extends Model {
 			'name' => 'Имя',
 			'role_id' => 'Роль',
 		];
+	}
+
+	public static function listRoles() {
+		return [ null => 'Нет' ] + ArrayHelper::map(Role::find()->all(), 'id', 'name');
 	}
 }

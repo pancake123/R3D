@@ -16,8 +16,8 @@ INSERT INTO role (name) VALUES
 INSERT INTO permission (id, name) VALUES
   ('ROLE_READ', 'Может просматривать роли'),
   ('ROLE_WRITE', 'Может редактировать роли'),
-  ('PRIVILEGE_READ', 'Может просматривать привилегии'),
-  ('PRIVILEGE_WRITE', 'Может редактировать привилегии'),
+  ('PERMISSION_READ', 'Может просматривать привилегии'),
+  ('PERMISSION_WRITE', 'Может редактировать привилегии'),
   ('USER_READ', 'Может просматривать пользователей'),
   ('USER_WRITE', 'Может редактировать пользователей')
 

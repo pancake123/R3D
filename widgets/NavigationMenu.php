@@ -2,6 +2,9 @@
 
 namespace app\widgets;
 
+use Yii;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 use yii\bootstrap\Widget;
 
 class NavigationMenu extends Widget {
@@ -9,11 +12,9 @@ class NavigationMenu extends Widget {
 	public function run() {
 		$menu = [
 			[ 'label' => 'Главная', 'url' => [ '/' ] ],
-			[ 'label' => 'Управление', 'items' => [
-				[ 'label' => 'Пользователи', 'url' => [ 'user/list' ], 'can' => [ 'USER_READ', 'USER_WRITE' ] ],
-				[ 'label' => 'Роли', 'url' => [ 'role/list' ], 'can' => [ 'ROLE_READ', 'USER_WRITE' ] ],
-				[ 'label' => 'Привилегии', 'url' => [ 'permission/list' ], 'can' => [ 'PERMISSION_READ', 'PERMISSION_WRITE' ] ],
-			] ]
+			[ 'label' => 'Модели', 'url' => [ 'model/list' ] ],
+			[ 'label' => 'Файлы', 'url' => [ 'file/list' ] ],
+			[ 'label' => 'Управление', 'url' => [ 'user/list' ] ],
 		];
 		if (\Yii::$app->getUser()->getIsGuest()) {
 			$menu = array_merge($menu, [
@@ -31,9 +32,20 @@ class NavigationMenu extends Widget {
 			]);
 		}
 		$this->checkAccess($menu);
-		return $this->render("NavigationMenu", [
-			"menu" => $menu
+		ob_start();
+		NavBar::begin([
+			'brandLabel' => 'R3D',
+			'brandUrl' => Yii::$app->homeUrl,
+			'options' => [
+				'class' => 'navbar-inverse navbar-fixed-top',
+			],
 		]);
+		print Nav::widget([
+			'options' => ['class' => 'navbar-nav navbar-right'],
+			'items' => $menu
+		]);
+		NavBar::end();
+		return ob_get_clean();
 	}
 
 	private function checkAccess(array& $items) {
@@ -46,7 +58,7 @@ class NavigationMenu extends Widget {
 					}
 				}
 				if (!$r) {
-//					unset($item['url']);
+					unset($item['url']);
 				}
 			} else if (is_array($item)) {
 				$this->checkAccess($item);

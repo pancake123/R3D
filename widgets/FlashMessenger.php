@@ -29,8 +29,11 @@ class FlashMessenger extends Widget {
 		if (empty($message)) {
 			return ;
 		}
-		print Html::tag('div', $message, [
-			'class' => 'alert alert-dismissible alert-' . $this->type
+		$button = Html::tag('button', Html::tag('span', '&times;', [ 'aria-hidden' => 'true' ]), [
+			'class' => 'close', 'type' => 'button', 'data-dismiss' => 'alert', 'aria-label' => 'Закрыть'
+		]);
+		print Html::tag('div', $button . $message, [
+			'class' => 'alert alert-dismissible fade in alert-' . $this->type
 		]);
 	}
 }

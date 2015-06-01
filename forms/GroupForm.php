@@ -4,7 +4,7 @@ namespace app\forms;
 
 use yii\base\Model;
 
-class PermissionForm extends Model {
+class GroupForm extends Model {
 
 	public $id;
 	public $name;
@@ -12,13 +12,12 @@ class PermissionForm extends Model {
 	public function rules() {
 		return [
 			/* defaults */
-			[ 'id', 'string', 'max' => 50 ],
-			[ 'name', 'string', 'max' => 100 ],
+			[ 'name', 'string', 'max' => 255 ],
 
 			/* site.permission.create */
-			[ [ 'id', 'name' ], 'required', 'on' => 'site.permission.create' ],
+			[ [ 'id', 'name' ], 'required', 'on' => 'group.create' ],
 			/* site.permission.update */
-			[ [ 'id', 'name' ], 'required', 'on' => 'site.permission.update' ],
+			[ [ 'id', 'name' ], 'required', 'on' => 'group.update' ],
 		];
 	}
 

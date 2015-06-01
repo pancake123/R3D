@@ -16,7 +16,7 @@ class User extends ActiveRecord implements IdentityInterface {
 		return new ActiveDataProvider([
 			'query' => $query,
 			'pagination' => [
-				'pageSize' => 10
+				'pageSize' => 25
 			],
 			'sort' => [
 				'attributes' => [

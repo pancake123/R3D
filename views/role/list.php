@@ -3,9 +3,10 @@
  * @var $this yii\web\View
  * @var $model app\forms\RoleForm
  */
-print \app\widgets\FlashMessenger::widget([
-	'key' => null
-]) ?>
+?>
+<?= \app\widgets\FlashMessenger::widget() ?>
+<?= \app\widgets\AdminNav::widget() ?>
+<br>
 <div class="col-xs-12">
 	<div class="col-xs-8">
 		<?= \yii\grid\GridView::widget([
@@ -13,13 +14,13 @@ print \app\widgets\FlashMessenger::widget([
 				'id', 'name', [
 					'class' => '\yii\grid\ActionColumn',
 					'buttons' => [
-						'update' => function($url) {
-							return \yii\helpers\Html::a('Редактировать', $url, [
+						'update' => function($url, $model) {
+							return \yii\helpers\Html::a('Редактировать', [ 'role/edit', 'id' => $model['id'] ], [
 								'class' => 'btn btn-primary btn-xs'
 							]);
 						},
-						'delete' => function($url) {
-							return \yii\helpers\Html::a('Удалить', $url, [
+						'delete' => function($url, $model) {
+							return \yii\helpers\Html::a('Удалить', [ 'role/delete', 'id' => $model['id'] ], [
 								'class' => 'btn btn-danger btn-xs'
 							]);
 						}

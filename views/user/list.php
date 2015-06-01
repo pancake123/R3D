@@ -2,9 +2,10 @@
 /**
  * @var $this yii\web\View
  */
-print \app\widgets\FlashMessenger::widget([
-	'key' => null
-]) ?>
+?>
+<?= \app\widgets\FlashMessenger::widget() ?>
+<?= \app\widgets\AdminNav::widget() ?>
+<br>
 <div class="col-xs-12">
 	<div class="col-xs-8">
 		<?= \yii\grid\GridView::widget([
@@ -17,12 +18,12 @@ print \app\widgets\FlashMessenger::widget([
 					'class' => '\yii\grid\ActionColumn',
 					'buttons' => [
 						'update' => function($url, $model, $key) {
-							return \yii\helpers\Html::a('Редактировать', $url, [
+							return \yii\helpers\Html::a('Редактировать', [ 'user/edit', 'id' => $model['id'] ], [
 								'class' => 'btn btn-primary btn-xs'
 							]);
 						},
 						'delete' => function($url, $model, $key) {
-							return \yii\helpers\Html::a('Удалить', $url, [
+							return \yii\helpers\Html::a('Удалить', [ 'user/delete', 'id' => $model['id'] ], [
 								'class' => 'btn btn-danger btn-xs'
 							]);
 						}

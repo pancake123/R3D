@@ -6,28 +6,51 @@ use app\forms\LoginForm;
 use app\forms\RegisterForm;
 use app\forms\UserForm;
 use app\models\User;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\IdentityInterface;
 
 class UserController extends Controller {
 
-	public function actionList() {
-		return $this->render('list', [ 'model' => new UserForm([ 'scenario' => 'site.user.new' ]) ]);
+	public function behaviors() {
+		return [
+			'access' => [ 'class' => AccessControl::className(),
+				'except' => [ 'login', 'register', 'logout' ],
+				'rules' => [
+					[ 'allow' => true, 'actions' => [ 'edit', 'update', 'create', 'delete' ], 'roles' => [ 'USER_WRITE' ] ],
+					[ 'allow' => true, 'actions' => [ 'list' ], 'roles' => [ 'USER_READ' ] ]
+				]
+			],
+		];
 	}
 
-	public function actionNew() {
-		return $this->render('new', [ 'model' => new UserForm([ 'scenario' => 'site.user.new' ]) ]);
+	public function actionList() {
+		return $this->render('list', [
+			'model' => new UserForm([ 'scenario' => 'site.user.create' ])
+		]);
+	}
+
+	public function actionEdit() {
+		if (!$id = \Yii::$app->getRequest()->getQueryParam('id')) {
+			return $this->redirect([ 'user/list' ]);
+		}
+		else if (!$ar = User::find()->where([ 'id' => $id ])->one()) {
+			return $this->redirect([ 'user/list' ]);
+		}
+		return $this->render('edit', [
+			'model' => new UserForm([ 'scenario' => 'site.user.update', 'password' => '' ] + $ar->getAttributes())
+		]);
 	}
 
 	public function actionCreate() {
-		$form = new UserForm([ 'scenario' => 'site.user.new' ]);
+		$form = new UserForm([ 'scenario' => 'site.user.create' ]);
 		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
-			\Yii::$app->getSession()->setFlash('user.new', 'Невозможно загрузить форму');
-			return $this->redirect([ 'permission/list' ]);
+			\Yii::$app->getSession()->setFlash('user.create', 'Невозможно загрузить форму');
+			return $this->redirect([ 'user/list' ]);
 		}
 		else if (!$form->validate()) {
-			\Yii::$app->getSession()->setFlash('user.new', 'Произошли ошибки при валидации формы');
-			return $this->redirect([ 'permission/list' ]);
+			\Yii::$app->getSession()->setFlash('user.create', 'Произошли ошибки при валидации формы');
+			return $this->redirect([ 'user/list' ]);
 		}
 		$ar = new User();
 		$ar->setAttributes($form->getAttributes(), false);
@@ -35,13 +58,39 @@ class UserController extends Controller {
 			$ar->getAttribute('password')
 		));
 		$ar->save();
-		\Yii::$app->getSession()->setFlash('user.new', 'Пользователь успешно создан');
+		\Yii::$app->getSession()->setFlash('user.create', 'Пользователь успешно создан');
+		return $this->redirect([ 'user/list' ]);
+	}
+
+	public function actionUpdate() {
+		$form = new UserForm([ 'scenario' => 'site.user.update' ]);
+		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
+			\Yii::$app->getSession()->setFlash('user.update', 'Невозможно загрузить форму');
+			return $this->redirect([ 'user/list' ]);
+		}
+		else if (!$form->validate()) {
+			\Yii::$app->getSession()->setFlash('user.update', 'Произошли ошибки при валидации формы');
+			return $this->redirect([ 'user/list' ]);
+		}
+		else if (!$ar = User::find()->where([ 'id' => $form->id ])->one()) {
+			\Yii::$app->getSession()->setFlash('user.create', 'Невозможно загрузить модель');
+			return $this->redirect([ 'user/list' ]);
+		}
+		if (!empty($form->password)) {
+			$form->password = \Yii::$app->getSecurity()->generatePasswordHash($form->password);
+		} else {
+			$form->password = $ar->getAttribute('password');
+		}
+		$ar->setAttributes($form->getAttributes(), false);
+		$ar->setAttribute('id', $ar->getOldAttribute('id'));
+		$ar->save();
+		\Yii::$app->getSession()->setFlash('user.update', 'Пользователь успешно изменен');
 		return $this->redirect([ 'user/list' ]);
 	}
 
 	public function actionDelete() {
 		User::deleteAll([ 'id' => $id = \Yii::$app->getRequest()->getQueryParam('id') ]);
-		\Yii::$app->getSession()->setFlash('permission.delete', 'Пользователь успешно удален');
+		\Yii::$app->getSession()->setFlash('user.delete', 'Пользователь успешно удален');
 		return $this->redirect([ 'user/list' ]);
 	}
 

@@ -2,7 +2,9 @@
 
 namespace app\forms;
 
+use app\models\Permission;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class RoleForm extends Model {
 
@@ -15,8 +17,8 @@ class RoleForm extends Model {
 			/* defaults */
 			[ 'name', 'string', 'max' => 20 ],
 
-			/* site.role.new */
-			[ [ 'name', 'permissions' ], 'required', 'on' => 'site.role.new' ],
+			/* site.role.create */
+			[ [ 'name', 'permissions' ], 'required', 'on' => 'site.role.create' ],
 
 			/* site.role.update */
 			[ [ 'id', 'name', 'permissions' ], 'required', 'on' => 'site.role.update' ],
@@ -29,5 +31,9 @@ class RoleForm extends Model {
 			'permissions' => 'Привилегии',
 			'name' => 'Наименование',
 		];
+	}
+
+	public function listPermissions() {
+		return ArrayHelper::map(Permission::find()->all(), 'id', 'name');
 	}
 }
