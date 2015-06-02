@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="glm">
+      <UniqueIdentifier>{d8795d60-1d6e-4cbe-8ee9-716631ad3c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="red">
+      <UniqueIdentifier>{96068508-a62f-497f-824f-b290f74487c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms">
+      <UniqueIdentifier>{fde8bec6-da66-4939-90f1-69409310291c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\glm\glm.h">
+      <Filter>glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\texture.h">
+      <Filter>glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Camera.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Define.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Model.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Point.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Vertex.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Algorithm.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Strategy.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\DoublePointAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\LinearAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\ReverseAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\SinglePointAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\SphereAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\TriplePointAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AlgorithmCollection.h">
+      <Filter>red</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\algorithms\OrthogonalityAlgorithm.h">
+      <Filter>algorithms</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\glm\glm.cpp">
+      <Filter>glm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\glm\glmimg.cpp">
+      <Filter>glm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\glm\texture.cpp">
+      <Filter>glm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Camera.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Main.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Model.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Vertex.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Point.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Strategy.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AlgorithmCollection.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Algorithm.cpp">
+      <Filter>red</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
