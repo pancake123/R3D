@@ -19,7 +19,7 @@ var init = function(wrapper) {
 	}).appendTo(wrapper);
 
 	camera = new THREE.PerspectiveCamera(
-		fov = 45, width / height, 1, 10000
+		fov = 45, width / height, 1, 1000
 	);
 	camera.position.z = 350;
 	camera.position.y = 150;

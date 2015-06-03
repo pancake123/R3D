@@ -56,7 +56,38 @@ GLvoid reverse(GLfloat fov, GLfloat aspectRatio, GLfloat near, GLfloat far) {
 	glTranslatef(0, 0, (far - near) / 2);
 }
 
+glm::mat4x4 getReverseMatrix(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far) {
+	glm::mat4x4 mat = glm::perspective(
+		fov, aspect, far, near
+		);
+	mat = glm::scale(mat, glm::vec3({
+		-1.0f, 1.0f, 1.0f
+	}));
+	mat = glm::translate(mat, glm::vec3({
+		0.0f, 0.0f, -(far - near) / 1.5f
+	}));
+	mat = glm::rotate(mat, 180.0f, glm::vec3({
+		0.0f, 1.0f, 0.0f
+	}));
+	mat = glm::translate(mat, glm::vec3({
+		0.0f, 0.0f, (far - near) / 1.5f
+	}));
+	return mat;
+}
+
+void printMatrix(const glm::mat4x4& mat) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << mat[i][j] << ' ';
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
+
 void render() {
+
+	static glm::vec3 rotation;
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -69,28 +100,44 @@ void render() {
 	camera.keyboard(10, key, keyboard[key]);
 #endif
 
-	algorithm->load();
+	GLfloat k = Vertex(0, 0, 0).distance(::camera._position) * 2.0f;
 
-	glm::mat4x4 matrix = algorithm->getMatrix();
+	printf("%.2f\n", k);
 
+	k = 1000.0f;
+
+	glm::mat4x4 linear = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
+	glm::mat4x4 reverse = glm::perspective(45.0f, 4.0f / 3.0f, 10000.0f, 1.0f);
+
+	reverse = glm::scale(reverse, glm::vec3({
+		-1.0f, 1.0f, 1.0f
+	}));
+	reverse = glm::translate(reverse, glm::vec3({
+		0.0f, 0.0f, -250
+	}));
+	reverse = glm::rotate(reverse, 180.0f, glm::vec3({
+		0.0f, 1.0f, 0.0f
+	}));
+	reverse = glm::translate(reverse, glm::vec3({
+		0.0f, 0.0f, 250
+	}));
+
+	glm::mat4x4 camera = algorithm->getCameraMatrix();
+
+	rotation++;
+
+	glMultMatrixf((GLfloat*)&reverse);
+	glMultMatrixf((GLfloat*)&camera);
+	//glPushMatrix();
+	//	reverse = glm::inverse(linear) * glm::perspective(90.0f, 4.0f / 3.0f, 1.0f, 1000.0f);
+	//	glMultMatrixf((GLfloat*)&reverse);
+	//	car.render();
+	//glPopMatrix();
 	glPushMatrix();
-		glm::mat4x4 camera = algorithm->getCameraMatrix();
-		glMultMatrixf((GLfloat*)&camera);
-		glPushMatrix();
-			//algorithms::OrthogonalityAlgorithm o;
-			//o.left = -WIDTH / 2.0f;
-			//o.right = WIDTH / 2.0f;
-			//o.bottom = -HEIGHT / 2.0f;
-			//o.top = HEIGHT / 2.0f;
-			//o.camera = &camera;
-			glm::mat4x4 inverse = glm::inverse(matrix) * glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 10000.0f);
-			glMultMatrixf((GLfloat*)&inverse);
-			car.render();
-		glPopMatrix();
-		glPushMatrix();
-			glTranslatef(0, 0, -500);
-			car.render();
-		glPopMatrix();
+		glRotatef(rotation.x, 1, 0, 0);
+		glRotatef(rotation.y, 0, 1, 0);
+		glRotatef(rotation.z, 0, 0, 1);
+		car.render();
 	glPopMatrix();
 }
 
