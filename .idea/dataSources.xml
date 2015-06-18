@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1361416836">
+  <component name="DataSourceManagerImpl" format="xml" hash="2490113261">
     <data-source source="LOCAL" name="MySQL - r3d@localhost" uuid="d9ad97b2-3c87-4741-b664-799ba18eaafa">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:8889/r3d</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost/r3d</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
@@ -17,4 +17,3 @@
     </data-source>
   </component>
 </project>
-

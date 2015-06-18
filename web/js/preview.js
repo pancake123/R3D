@@ -19,10 +19,10 @@ var init = function(wrapper) {
 	}).appendTo(wrapper);
 
 	camera = new THREE.PerspectiveCamera(
-		fov = 45, width / height, 1, 1000
+		fov = 45, width / height, 10000, 1
 	);
 	camera.position.z = 350;
-	camera.position.y = 150;
+	camera.position.y = 125;
 
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -36,13 +36,13 @@ var init = function(wrapper) {
 	directionalLight.intensity = 1.0;
 	scene.add( directionalLight );
 
-	directionalLight = new THREE.DirectionalLight( 0xffffff );
+	directionalLight = new THREE.DirectionalLight(0xffffff);
 	directionalLight.position.set(-1, 0.6, 0.5).normalize();
 	directionalLight.intensity = 0.5;
 	scene.add(directionalLight);
 
-	directionalLight = new THREE.DirectionalLight();
-	directionalLight.position.set(-0.3, 0.6, -0.8).normalize( 0xffffff );
+	directionalLight = new THREE.DirectionalLight(0xffffff);
+	directionalLight.position.set(-0.3, 0.6, -0.8).normalize();
 	directionalLight.intensity = 0.45;
 	scene.add(directionalLight);
 
@@ -50,12 +50,11 @@ var init = function(wrapper) {
 	renderer.setSize(width, height);
 	container.append(renderer.domElement);
 
-	var gl = renderer.context;
-
-	gl.enable(gl.DEPTH_TEST);
-	gl.depthFunc(gl.LESS);
-	gl.enable(gl.CULL_FACE);
-	gl.cullFace(gl.FRONT);
+	//var gl = renderer.context;
+	//gl.enable(gl.DEPTH_TEST);
+	//gl.depthFunc(gl.LESS);
+	//gl.enable(gl.CULL_FACE);
+	//gl.cullFace(gl.FRONT);
 };
 
 var render = function() {
@@ -65,13 +64,9 @@ var render = function() {
 	}
 
 	//вращаем куб по всем трем осям (переменная мэша куба доступна глобально)
-	//object.rotation.x += 0.05 * Math.PI / 90;
+	object.rotation.x += 0.05 * Math.PI / 90;
 	object.rotation.y += 0.25 * Math.PI / 90;
-	//object.rotation.z += 1.05 * Math.PI / 90;
-
-	//двигаем куб по кругу, изменяя координаты его позиции по осям x и y
-	//object.position.x = Math.sin( phi ) * 50;
-	//object.position.y = Math.cos( phi ) * 50;
+	object.rotation.z += 1.05 * Math.PI / 90;
 
 	//итерируем глобальную переменную
 	phi += 0.05;
