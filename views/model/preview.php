@@ -20,16 +20,58 @@ $id = Yii::$app->getRequest()->getQueryParam('id');
 		]
 	) ?>
 </div>
-<?= \yii\helpers\Html::tag('div', '', [
-	'id' => 'webgl-preview'
-]) ?>
+<br><br>
+<div class="row clear">
+    <?= \yii\helpers\Html::tag('div', '', [
+        'id' => 'webgl-preview'
+    ]) ?>
+</div>
+<br>
+<div style="width: 350px">
+    <div class="row clear preview-control-wrapper">
+        <label class="white-label col-xs-6 text-right">Угол обзора</label>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm fa fa-minus" onclick="changeParameter.call(this, -5)"></button>
+            <button class="btn btn-primary btn-sm fa fa-plus" onclick="changeParameter.call(this, +5)"></button>
+        </div>
+        <label id="fov" class="white-label label-border">45</label>
+    </div>
+    <div class="row clear preview-control-wrapper">
+        <label class="white-label col-xs-6 text-right">Начало сцены</label>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm fa fa-minus" onclick="changeParameter.call(this, -10)"></button>
+            <button class="btn btn-primary btn-sm fa fa-plus" onclick="changeParameter.call(this, +10)"></button>
+        </div>
+        <label id="near" class="white-label label-border">1</label>
+    </div>
+    <div class="row clear preview-control-wrapper">
+        <label class="white-label col-xs-6 text-right">Конец сцены</label>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm fa fa-minus" onclick="changeParameter.call(this, -10)"></button>
+            <button class="btn btn-primary btn-sm fa fa-plus" onclick="changeParameter.call(this, +10)"></button>
+        </div>
+        <label id="far" class="white-label label-border">1000</label>
+    </div>
+</div>
 <?php
 $obj = Yii::$app->getUrlManager()->createUrl([ 'model/object', 'id' => $id ]);
 $mtl = Yii::$app->getUrlManager()->createUrl([ 'model/material', 'id' => $id ]);
 $this->registerJs(<<< JS
-var loader = new THREE.OBJMTLLoader();
-loader.load('$obj', '$mtl', function(obj) {
-	scene.add(obj); window.object = obj;
-});
+var modes = [ MODE_ORTHOGONAL, MODE_REVERSE, MODE_LINEAR ];
+var load = function(mode, callback) {
+    var loader = new THREE.OBJMTLLoader();
+    loader.load('$obj', '$mtl', function(obj) {
+        init(obj, mode); callback && callback();
+    });
+};
+var repeater = function() {
+    if (!modes.length) {
+        return void 0;
+    }
+    load(modes.pop(), function() {
+        repeater();
+    });
+};
+repeater();
 JS
 ) ?>
