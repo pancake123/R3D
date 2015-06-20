@@ -4,10 +4,11 @@ namespace app\commands;
 
 use ReflectionMethod;
 use yii\console\Controller;
+use yii\helpers\StringHelper;
 
 class DiplomaController extends Controller {
 
-    public function actionGenerate() {
+    public function actionClass() {
         $path = substr(__DIR__, 0, strrpos(__DIR__, '\\')).DIRECTORY_SEPARATOR;
         ob_start();
         foreach (static::$dirs as $dir) {
@@ -15,7 +16,24 @@ class DiplomaController extends Controller {
                 $this->printClass($d, 'app\\'.$dir.'\\'.basename($d, '.php'));
             }
         }
-        file_put_contents('text.txt', ob_get_clean());
+        file_put_contents('class.txt', ob_get_clean());
+    }
+
+    public function actionCode($folder) {
+        $path = substr(__DIR__, 0, strrpos(__DIR__, '\\')).DIRECTORY_SEPARATOR.$folder;
+        $counter = 1;
+        ob_start();
+        foreach ($this->listFiles($path) as $file) {
+            $f = $file;
+            $p = strrpos($file, '\\');
+            $old = substr($file, 0, $p);
+            $file = substr($old, strrpos($old, '\\') + 1).'/'.substr($file, $p + 1);
+            print 'Листинг В.'.$counter.' – Исходный код файла '.$file."\r\n";
+            print preg_replace('/[\r\n]+/', "\r\n", file_get_contents($f))."\r\n";
+            print 'Листинг В.'.$counter.' – Конец'."\r\n";
+            $counter++;
+        }
+        file_put_contents('code.txt', mb_convert_encoding(ob_get_clean(), 'Windows-1251', 'UTF-8'));
     }
 
     private function printClass($path, $class) {
@@ -63,7 +81,7 @@ class DiplomaController extends Controller {
             if($file == '.' || $file == '..') {
                 continue;
             }
-            $path = $from . '/' . $file;
+            $path = $from . '\\' . $file;
             if (is_dir($path)) {
                 $files += $this->listFiles($path);
             } else if (substr($path, strrpos($path, '.') + 1) == $ext) {
