@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\forms\UploadForm;
 use app\models\File;
 use yii\base\Exception;
 use yii\filters\AccessControl;
@@ -24,7 +25,9 @@ class ModelController extends Controller {
     }
 
 	public function actionList() {
-		return $this->render('list');
+		return $this->render('list', [
+            'model' => new UploadForm()
+        ]);
 	}
 
 	public function actionPreview() {

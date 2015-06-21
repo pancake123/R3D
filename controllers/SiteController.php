@@ -23,7 +23,8 @@ class SiteController extends Controller {
 				'model' => new LoginForm()
 			]);
 		} else {
-            return $this->redirect([ 'model/list' ]);
+            $this->layout = 'center';
+            return $this->render('index');
 		}
     }
 

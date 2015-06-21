@@ -27,7 +27,8 @@ class File extends ActiveRecord {
 				'defaultOrder' => [
 					'id' => SORT_ASC
 				]
-			]
+			],
+            'key' => 'id'
 		]);
 	}
 

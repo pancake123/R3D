@@ -4,7 +4,7 @@
  */
 $model = new \app\forms\UploadForm();
 ?>
-<?= \app\widgets\FileNav::widget() ?>
+<?= \app\widgets\AdminNav::widget() ?>
 <br>
 <div class="col-xs-12">
 	<div class="col-xs-8">
@@ -56,5 +56,6 @@ $model = new \app\forms\UploadForm();
 				<?php $form->end() ?>
 			</div>
 		</div>
+        <?= \app\widgets\FlashMessenger::widget() ?>
 	</div>
 </div>

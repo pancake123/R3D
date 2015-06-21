@@ -10,6 +10,8 @@ class AdminNav extends Nav {
 		[ 'label' => 'Пользователи', 'url' => [ 'user/list' ] ],
 		[ 'label' => 'Роли', 'url' => [ 'role/list' ] ],
 		[ 'label' => 'Привилегии', 'url' => [ 'permission/list' ] ],
+        [ 'label' => 'Файлы', 'url' => [ 'file/list' ] ],
+        [ 'label' => 'Группы', 'url' => [ 'group/list' ] ],
 	];
 
 	public $options = [

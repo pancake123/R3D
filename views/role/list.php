@@ -4,7 +4,6 @@
  * @var $model app\forms\RoleForm
  */
 ?>
-<?= \app\widgets\FlashMessenger::widget() ?>
 <?= \app\widgets\AdminNav::widget() ?>
 <br>
 <div class="col-xs-12">
@@ -53,5 +52,6 @@
 				<?php $form->end() ?>
 			</div>
 		</div>
+        <?= \app\widgets\FlashMessenger::widget() ?>
 	</div>
 </div>

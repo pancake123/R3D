@@ -45,11 +45,11 @@ class RoleController extends Controller {
 	public function actionCreate() {
 		$form = new RoleForm([ 'scenario' => 'site.role.create' ]);
 		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
-			\Yii::$app->getSession()->setFlash('permission.create', 'Невозможно загрузить форму');
+			\Yii::$app->getSession()->setFlash('danger', 'Невозможно загрузить форму');
 			return $this->redirect([ 'role/list' ]);
 		}
 		else if (!$form->validate()) {
-			\Yii::$app->getSession()->setFlash('permission.create', 'Произошли ошибки при валидации формы');
+			\Yii::$app->getSession()->setFlash('danger', 'Произошли ошибки при валидации формы');
 			return $this->redirect([ 'role/list' ]);
 		}
 		$transaction = \Yii::$app->getDb()->beginTransaction();
@@ -68,18 +68,18 @@ class RoleController extends Controller {
 			$transaction->rollBack();
 			throw $e;
 		}
-		\Yii::$app->getSession()->setFlash('permission.create', 'Роль успешно создана');
+		\Yii::$app->getSession()->setFlash('success', 'Роль успешно создана');
 		return $this->redirect([ 'role/list' ]);
 	}
 
 	public function actionUpdate() {
 		$form = new RoleForm([ 'scenario' => 'site.role.update' ]);
 		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
-			\Yii::$app->getSession()->setFlash('permission.update', 'Невозможно загрузить форму');
+			\Yii::$app->getSession()->setFlash('danger', 'Невозможно загрузить форму');
 			return $this->redirect([ 'role/list' ]);
 		}
 		else if (!$form->validate()) {
-			\Yii::$app->getSession()->setFlash('permission.update', 'Произошли ошибки при валидации формы');
+			\Yii::$app->getSession()->setFlash('danger', 'Произошли ошибки при валидации формы');
 			return $this->redirect([ 'role/list' ]);
 		}
 		$list = ArrayHelper::getColumn(Role::findPermissions($form->id), 'id', false);
@@ -109,13 +109,13 @@ class RoleController extends Controller {
 			$transaction->rollBack();
 			throw $e;
 		}
-		\Yii::$app->getSession()->setFlash('permission.update', 'Роль успешно создана');
+		\Yii::$app->getSession()->setFlash('success', 'Роль успешно создана');
 		return $this->redirect([ 'role/list' ]);
 	}
 
 	public function actionDelete() {
 		Role::deleteAll([ 'id' => $id = \Yii::$app->getRequest()->getQueryParam('id') ]);
-		\Yii::$app->getSession()->setFlash('permission.delete', 'Роль успешно удалена');
+		\Yii::$app->getSession()->setFlash('success', 'Роль успешно удалена');
 		return $this->redirect([ 'role/list' ]);
 	}
 }

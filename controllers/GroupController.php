@@ -41,43 +41,43 @@ class GroupController extends Controller {
 	public function actionCreate() {
 		$form = new GroupForm([ 'scenario' => 'group.create' ]);
 		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
-			\Yii::$app->getSession()->setFlash('group.create', 'Невозможно загрузить форму');
+			\Yii::$app->getSession()->setFlash('danger', 'Невозможно загрузить форму');
 			return $this->redirect([ 'group/list' ]);
 		}
 		else if (!$form->validate()) {
-			\Yii::$app->getSession()->setFlash('group.create', 'Произошли ошибки при валидации формы');
+			\Yii::$app->getSession()->setFlash('danger', 'Произошли ошибки при валидации формы');
 			return $this->redirect([ 'group/list' ]);
 		}
 		$ar = new Group();
 		$ar->setAttributes($form->getAttributes(), false);
 		$ar->save();
-		\Yii::$app->getSession()->setFlash('group.create', 'Группа успешно создана');
+		\Yii::$app->getSession()->setFlash('success', 'Группа успешно создана');
 		return $this->redirect([ 'group/list' ]);
 	}
 
 	public function actionUpdate() {
 		$form = new GroupForm([ 'scenario' => 'group.update' ]);
 		if (!$form->load(\Yii::$app->getRequest()->getBodyParams())) {
-			\Yii::$app->getSession()->setFlash('group.update', 'Невозможно загрузить форму');
+			\Yii::$app->getSession()->setFlash('danger', 'Невозможно загрузить форму');
 			return $this->redirect([ 'group/list' ]);
 		}
 		else if (!$form->validate()) {
-			\Yii::$app->getSession()->setFlash('group.update', 'Произошли ошибки при валидации формы');
+			\Yii::$app->getSession()->setFlash('danger', 'Произошли ошибки при валидации формы');
 			return $this->redirect([ 'group/list' ]);
 		}
 		else if (!$ar = Group::find()->where([ 'id' => $form->id ])->one()) {
-			\Yii::$app->getSession()->setFlash('group.update', 'Отсутсвует модель объекта');
+			\Yii::$app->getSession()->setFlash('danger', 'Отсутсвует модель объекта');
 			return $this->redirect([ 'group/list' ]);
 		}
 		$ar->setAttributes($form->getAttributes(), false);
 		$ar->save();
-		\Yii::$app->getSession()->setFlash('group.update', 'Группа успешно сохранена');
+		\Yii::$app->getSession()->setFlash('success', 'Группа успешно сохранена');
 		return $this->redirect([ 'group/list' ]);
 	}
 
 	public function actionDelete() {
 		Group::deleteAll([ 'id' => $id = \Yii::$app->getRequest()->getQueryParam('id') ]);
-		\Yii::$app->getSession()->setFlash('group.delete', 'Группа успешно удалена');
+		\Yii::$app->getSession()->setFlash('success', 'Группа успешно удалена');
 		return $this->redirect([ 'group/list' ]);
 	}
 }

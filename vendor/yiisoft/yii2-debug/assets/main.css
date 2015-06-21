@@ -117,3 +117,8 @@ a.desc:after {
 .nowrap {
     white-space: nowrap;
 }
+
+.texture-container > img {
+    width: auto;
+    height: auto;
+}

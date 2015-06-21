@@ -4,8 +4,7 @@
  * @var $model app\forms\GroupForm
  */
 ?>
-<?= \app\widgets\FlashMessenger::widget() ?>
-<?= \app\widgets\FileNav::widget() ?>
+<?= \app\widgets\AdminNav::widget() ?>
 <br>
 <div class="col-xs-12">
 	<div class="col-xs-8">
@@ -51,5 +50,6 @@
 				<?php $form->end() ?>
 			</div>
 		</div>
+        <?= \app\widgets\FlashMessenger::widget() ?>
 	</div>
 </div>

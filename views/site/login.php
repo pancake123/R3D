@@ -10,20 +10,22 @@
         <div class="panel-heading">
             Вход
         </div>
+        <?php $form = \yii\bootstrap\ActiveForm::begin([
+            'action' => [ 'user/login' ]
+        ]) ?>
         <div class="panel-body">
-            <?php $form = \yii\bootstrap\ActiveForm::begin([
-                'action' => [ 'user/login' ]
-            ]) ?>
             <?= $form->field($model, 'login')->textInput() ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
+        </div>
+        <div class="panel-footer text-center">
             <?= \yii\helpers\Html::submitButton("Войти", [
                 "class" => "btn btn-danger"
             ]) ?>
             <?= \yii\helpers\Html::a('Регистрация', [ 'site/register' ], [
                 'class' => 'btn btn-primary'
             ]) ?>
-            <?php $form->end() ?>
         </div>
+        <?php $form->end() ?>
     </div>
     <?= \app\widgets\FlashMessenger::widget() ?>
 </div>

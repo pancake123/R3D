@@ -1,11 +1,41 @@
-
 html,
 body {
     height: 100%;
 }
 
+body {
+    margin-top: 0;
+    height: 100%;
+    display: table;
+    width: 100%;
+}
+
 .page-content {
-    padding: 70px 15px 0;
+    padding: 20px 15px 0 90px;
+}
+
+.page-content-center > .page-content {
+    width: 500px;
+    margin: auto;
+    background-color: #3d3d3d;
+    border-radius: 7px;
+    padding: 20px;
+}
+
+.page-content-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.page-content-left {
+    width: 75px;
+    float: left;
+}
+
+.page-content-right {
+    width: calc(100% - 75px);
+    text-align: right;
+    margin-left: 75px;
 }
 
 .navbar > .container {
@@ -15,4 +45,70 @@ body {
 .clear {
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.nav-menu {
+    width: 75px;
+    position: fixed;
+    left: 0;
+    right: 50px;
+    background-color: #fd733f;
+    color: #619B21;
+}
+
+.nav-center {
+    background-color: transparent !important;
+}
+
+.nav-center > .nav > li:hover > a {
+    background-color: #fd733f;
+}
+
+.nav-menu-wrapper > .nav-menu:first-child {
+    top: 0;
+    bottom: 0;
+}
+
+.nav-menu-wrapper > .nav-menu:last-child {
+    bottom: 0;
+}
+
+.nav-center {
+    position: relative !important;
+}
+
+.nav-menu * {
+    color: black;
+}
+
+.nav-menu > .nav > li {
+    text-align: center;
+}
+
+.material-container {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.material-container:empty {
+    display: none;
+}
+
+::selection {
+    background: white;
+}
+::-moz-selection {
+    background: white;
+}
+
+.identity-container {
+    margin-top: 150px;
+    color: black;
+    font-size: 15px;
+    padding-right: 20px;
+}
+
+.logo-wrapper {
+    padding-top: 20px;
+    padding-right: 20px;
 }

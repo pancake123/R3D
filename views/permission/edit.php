@@ -4,9 +4,7 @@
  * @var $model app\forms\PermissionForm
  */
 ?>
-<?= \app\widgets\FlashMessenger::widget([
-	'key' => null
-]) ?>
+<?= \app\widgets\FlashMessenger::widget() ?>
 <div class="col-xs-12">
 	<div class="col-xs-5">
 		<? $form = \yii\bootstrap\ActiveForm::begin([

@@ -1,14 +1,21 @@
 
-const MODE_LINEAR = 1;
-const MODE_REVERSE = 2;
-const MODE_ORTHOGONAL = 3;
-const MODE_DEPTH = 4;
+const MODE_LINEAR = 0;
+const MODE_REVERSE = 1;
+const MODE_ORTHOGONAL = 2;
+const MODE_DEPTH = 3;
 
 var fov = 45,
     near = 1,
     far = 1000;
 
 var collection = {};
+
+var localization = [
+    "Линейная перспектива",
+    "Обратная перспектива",
+    "Ортографическая проекция",
+    "Инверсная воздушная перспектива"
+];
 
 var createCamera = function(mode, width, height) {
 
@@ -57,12 +64,12 @@ var createWorld = function(object, mode, width, height) {
 
     scene = new THREE.Scene();
 
-    if (mode == MODE_LINEAR || mode == MODE_DEPTH) {
-        var helper = new THREE.GridHelper(1000, 50);
-        helper.setColors(0x0000ff, 0x808080);
-        helper.position.y = -50;
-        scene.add( helper );
-    }
+    //if (mode == MODE_LINEAR || mode == MODE_DEPTH) {
+    //    var helper = new THREE.GridHelper(1000, 50);
+    //    helper.setColors(0x0000ff, 0x808080);
+    //    helper.position.y = -50;
+    //    scene.add( helper );
+    //}
 
     scene.add(object);
 
@@ -115,7 +122,7 @@ var createWorld = function(object, mode, width, height) {
 
         //object.rotation.x += 0.05 * Math.PI / 90;
         object.rotation.y += 0.25 * Math.PI / 90;
-        object.rotation.z += 0.75 * Math.PI / 90;
+        object.rotation.z += 0.075 * Math.PI / 90;
 
         phi += 0.05;
         renderer.render(scene, camera);
@@ -138,16 +145,26 @@ var createWorld = function(object, mode, width, height) {
 
 var init = function(object, mode) {
 
-    var wrapper = $("#webgl-preview");
+    var wrapper = $("#webgl-preview"), e;
 
     if (!wrapper.children("#container").length) {
         wrapper.append($("<div></div>", { id: "container" }));
     }
 
-	var width = wrapper.width() / 3;
-	var height = wrapper.height();
+	var width = wrapper.width() / 2;
+	var height = 350;
 
-    wrapper.children("#container").append(createWorld(object, mode, width, height));
+    var t = $("<span></span>", {
+        text: localization[mode],
+        class: "canvas-title"
+    }).appendTo("body");
+
+    wrapper.children("#container").append(e = $(createWorld(object, mode, width, height)));
+
+    t.css({
+        left: e.position().left + 10,
+        top: e.position().top + 10
+    });
 };
 
 var changeParameter = function(step) {

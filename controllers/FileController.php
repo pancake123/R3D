@@ -19,7 +19,7 @@ class FileController extends Controller {
             'access' => [ 'class' => AccessControl::className(),
                 'except' => [],
                 'rules' => [
-                    [ 'allow' => true, 'actions' => [ 'edit', 'update', 'create', 'delete' ], 'roles' => [ 'FILE_WRITE' ] ],
+                    [ 'allow' => true, 'actions' => [ 'upload' ], 'roles' => [ 'FILE_WRITE' ] ],
                     [ 'allow' => true, 'actions' => [ 'list' ], 'roles' => [ 'FILE_READ' ] ]
                 ]
             ],
@@ -62,10 +62,12 @@ class FileController extends Controller {
 				'file_extension' => $model->file->extension
 			]);
 			if (!$file->save()) {
-				throw new Exception('CAN\'T SAVE FILE INFO IN DATABASE');
+                Yii::$app->getSession()->setFlash('danger', 'Невозможно сохранить информацию в базе данных');
+				$this->redirect([ 'model/list' ]);
 			}
 			if (!$model->file->saveAs($this->getDirectory($path))) {
-				throw new Exception('CAN\'T UPLOAD FILE ON SERVER');
+                Yii::$app->getSession()->setFlash('danger', 'Невозможно сохранить файл в локальном хранилище');
+                $this->redirect([ 'model/list' ]);
 			}
 			while (!file_exists($this->getDirectory($path))) {
 				sleep(1);
@@ -76,13 +78,15 @@ class FileController extends Controller {
 			$transaction->rollBack();
 			throw $e;
 		}
-		return $this->redirect([ 'file/list' ]);
+        Yii::$app->getSession()->setFlash('success', 'Файл успешно загружен и распакован');
+		return $this->redirect([ 'model/list' ]);
 	}
 
 	private function extractArchive($path, $parent) {
 		$zip = new \ZipArchive();
 		if (($er = $zip->open($path)) !== true) {
-			throw new Exception("Can't open file as archive ($er)");
+            Yii::$app->getSession()->setFlash('danger', 'Загруженный файл не является ZIP архивом');
+            $this->redirect([ 'model/list' ]);
 		}
 		for ($i = 0; $i < $zip->numFiles; $i++) {
 			$name = $this->generateName();
@@ -109,7 +113,8 @@ class FileController extends Controller {
 			]);
 			$file->save();
 			if (!$zip->extractTo($this->getDirectory(), [ $filename ])) {
-				throw new Exception("Can't extract file \"$filename\"");
+                Yii::$app->getSession()->setFlash('danger', 'Не получает распаковать архив, возможно, файл поврежден');
+                $this->redirect([ 'model/list' ]);
 			}
 			rename($this->getDirectory($filename), $this->getDirectory($name));
 		}

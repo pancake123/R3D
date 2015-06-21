@@ -24,3 +24,8 @@ body {
     border-radius: 3px;
     padding: 3px 5px;
 }
+
+.canvas-title {
+    position: absolute;
+    z-index: 1000;
+}
