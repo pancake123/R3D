@@ -54,6 +54,14 @@ $id = Yii::$app->getRequest()->getQueryParam('id');
         </div>
         <label id="far" class="white-label label-border">1000</label>
     </div>
+    <div class="row clear preview-control-wrapper">
+        <label class="white-label col-xs-6 text-right">Угол поворота</label>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm fa fa-minus" onclick="changeParameter.call(this, -10)" disabled></button>
+            <button class="btn btn-primary btn-sm fa fa-plus" onclick="changeParameter.call(this, +10)" disabled></button>
+        </div>
+        <label id="angle" class="white-label label-border">0</label>
+    </div>
 </div>
 <?php
 $obj = Yii::$app->getUrlManager()->createUrl([ 'model/object', 'id' => $id ]);

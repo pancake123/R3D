@@ -126,6 +126,8 @@ var createWorld = function(object, mode, width, height) {
 
         phi += 0.05;
         renderer.render(scene, camera);
+
+        $("#angle").text(object.rotation.y.toFixed(2) + " x " + object.rotation.z.toFixed(2));
     };
 
     setInterval(render, 15);
