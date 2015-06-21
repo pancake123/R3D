@@ -21,12 +21,6 @@ THREE.MTLLoader.prototype = {
 		var scope = this;
 
 		/* --- CUSTOM CODE BLOCK! HOT! */
-		function getParameterByName(name) {
-			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-				results = regex.exec(location.search);
-			return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-		}
 		this.baseUrl += 'texture?id='+ getParameterByName('id') +'&name=';
 		/* CUSTOM CODE BLOCK! HOT! --- */
 

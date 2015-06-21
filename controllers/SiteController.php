@@ -20,18 +20,22 @@ class SiteController extends Controller {
     public function actionIndex() {
 		if (Yii::$app->getUser()->getIsGuest()) {
 			return $this->render('login', [
-				"login" => new LoginForm(),
-				"register" => new RegisterForm()
+				'model' => new LoginForm()
 			]);
 		} else {
-			return $this->render('index');
+            return $this->redirect([ 'model/list' ]);
 		}
+    }
+
+    public function actionRegister() {
+        return $this->render('register', [
+            'model' => new RegisterForm()
+        ]);
     }
 
 	public function actionLogin() {
 		return $this->render('login', [
-			"login" => new LoginForm(),
-			"register" => new RegisterForm()
+			'model' => new LoginForm()
 		]);
 	}
 }

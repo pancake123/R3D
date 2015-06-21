@@ -7,13 +7,26 @@ use app\forms\UploadForm;
 use app\models\File;
 use Yii;
 use yii\base\Exception;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\UploadedFile;
 
 class FileController extends Controller {
 
-	public static function generateName() {
+    public function behaviors() {
+        return [
+            'access' => [ 'class' => AccessControl::className(),
+                'except' => [],
+                'rules' => [
+                    [ 'allow' => true, 'actions' => [ 'edit', 'update', 'create', 'delete' ], 'roles' => [ 'FILE_WRITE' ] ],
+                    [ 'allow' => true, 'actions' => [ 'list' ], 'roles' => [ 'FILE_READ' ] ]
+                ]
+            ],
+        ];
+    }
+
+    public static function generateName() {
 		return Yii::$app->getSecurity()->generateRandomString(32);
 	}
 

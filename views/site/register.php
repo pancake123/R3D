@@ -1,25 +1,28 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $model app\forms\LoginForm
+ * @var $model app\forms\RegisterForm
  */
 ?>
 <br>
-<div class="col-xs-4 col-xs-offset-4">
+<div class="col-xs-6 col-xs-offset-3">
     <div class="panel panel-default">
         <div class="panel-heading">
-            Вход
+            Регистрация
         </div>
         <div class="panel-body">
             <?php $form = \yii\bootstrap\ActiveForm::begin([
-                'action' => [ 'user/login' ]
+                'action' => [ 'user/register' ]
             ]) ?>
             <?= $form->field($model, 'login')->textInput() ?>
+            <?= $form->field($model, 'surname')->textInput() ?>
+            <?= $form->field($model, 'name')->textInput() ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
-            <?= \yii\helpers\Html::submitButton("Войти", [
+            <?= $form->field($model, 'repeat_password')->passwordInput() ?>
+            <?= \yii\helpers\Html::submitButton("Отправить", [
                 "class" => "btn btn-danger"
             ]) ?>
-            <?= \yii\helpers\Html::a('Регистрация', [ 'site/register' ], [
+            <?= \yii\helpers\Html::a('Назад', [ 'site/login' ], [
                 'class' => 'btn btn-primary'
             ]) ?>
             <?php $form->end() ?>

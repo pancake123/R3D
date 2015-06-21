@@ -1,4 +1,11 @@
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 $(document).ready(function() {
 
 	$.fn.fileinput.defaults = $.extend($.fn.fileinput.defaults, {
@@ -13,7 +20,7 @@ $(document).ready(function() {
 		msgInvalidFileExtension: "Неверное расширение для файла \"{name}\". Допустимы только \"{extensions}\".",
 		msgValidationError: "<span class=\"text-danger\"><i class=\"glyphicon glyphicon-exclamation-sign\"></i>Ошибка при загрузке файла</span>",
 		browseLabel: "",
-		browseIcon: "<i class=\"fa fa-file-archive-o\" style=\"font-size: 25px;\"></i>",
+		browseIcon: "<i class=\"fa fa-file-archive-o\" style=\"font-size: 19px;\"></i>",
 		removeLabel: "Удалить",
 		removeTitle: "Удалить выбранные элементы",
 		removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
@@ -35,6 +42,6 @@ $(document).ready(function() {
 	});
 
 	$("[data-toggle='fileinput']").fileinput({
-		mainClass: "input-group-lg"
+		mainClass: "input-group"
 	});
 });

@@ -27,7 +27,7 @@ $id = Yii::$app->getRequest()->getQueryParam('id');
     ]) ?>
 </div>
 <br>
-<div style="width: 350px">
+<div class="col-xs-4 col-xs-offset-8">
     <div class="row clear preview-control-wrapper">
         <label class="white-label col-xs-6 text-right">Угол обзора</label>
         <div class="btn-group">
@@ -57,10 +57,15 @@ $id = Yii::$app->getRequest()->getQueryParam('id');
 $obj = Yii::$app->getUrlManager()->createUrl([ 'model/object', 'id' => $id ]);
 $mtl = Yii::$app->getUrlManager()->createUrl([ 'model/material', 'id' => $id ]);
 $this->registerJs(<<< JS
-var modes = [ MODE_ORTHOGONAL, MODE_REVERSE, MODE_LINEAR ];
+var modes = [ MODE_DEPTH, MODE_ORTHOGONAL, MODE_REVERSE, MODE_LINEAR ];
 var load = function(mode, callback) {
-    var loader = new THREE.OBJMTLLoader();
-    loader.load('$obj', '$mtl', function(obj) {
+    var loader = new THREE.OBJMTLLoader(), mtl;
+    if (mode != MODE_DEPTH) {
+        mtl = '$mtl';
+    } else {
+        mtl = null;
+    }
+    loader.load('$obj', mtl, function(obj) {
         init(obj, mode); callback && callback();
     });
 };

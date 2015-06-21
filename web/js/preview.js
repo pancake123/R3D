@@ -2,6 +2,7 @@
 const MODE_LINEAR = 1;
 const MODE_REVERSE = 2;
 const MODE_ORTHOGONAL = 3;
+const MODE_DEPTH = 4;
 
 var fov = 45,
     near = 1,
@@ -15,6 +16,7 @@ var createCamera = function(mode, width, height) {
 
     switch (mode) {
         case MODE_LINEAR:
+        case MODE_DEPTH:
             camera = new THREE.PerspectiveCamera(
                 fov, width / height, near, far
             );
@@ -43,33 +45,60 @@ var createWorld = function(object, mode, width, height) {
         renderer,
         phi = 0;
 
-    camera.position.z = 350;
-    camera.position.y = 125;
+    if (mode == MODE_DEPTH) {
+        camera.position.z = 500;
+        camera.position.y = 250;
+    } else {
+        camera.position.z = 350;
+        camera.position.y = 125;
+    }
 
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     scene = new THREE.Scene();
 
-    var helper = new THREE.GridHelper(1000, 50);
-    helper.setColors(0x0000ff, 0x808080);
-    helper.position.y = -50;
-    scene.add( helper );
+    if (mode == MODE_LINEAR || mode == MODE_DEPTH) {
+        var helper = new THREE.GridHelper(1000, 50);
+        helper.setColors(0x0000ff, 0x808080);
+        helper.position.y = -50;
+        scene.add( helper );
+    }
 
     scene.add(object);
 
-    var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-    scene.add(light);
+    if (mode == MODE_DEPTH) {
+        var depth = [ -1000, -500, -250, 0, 250, 500, 1000 ];
+        for (var d in depth) {
+            var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+            for ( var i = 0; i < geometry.faces.length; i += 2 ) {
+                var hex = Math.random() * 0xffffff;
+                geometry.faces[ i ].color.setHex( hex );
+                geometry.faces[ i + 1 ].color.setHex( hex );
+            }
+            var material = new THREE.MeshDepthMaterial( { overdraw: 0.5 } );
+            var cube = new THREE.Mesh( geometry, material );
+            cube.position.y = 0;
+            cube.position.x = 200;
+            cube.position.z = -depth[d];
+            scene.add(cube);
+        }
+        material = new THREE.MeshDepthMaterial( { side: THREE.DoubleSide, overdraw: 0.5 } );
+        var plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1000, 1000, 10, 10 ), material );
+        plane.position.y = - 100;
+        plane.rotation.x = - Math.PI / 2;
+        scene.add( plane );
+    }
 
+    var light = new THREE.AmbientLight( 0x404040 );
+    scene.add(light);
     var directionalLight = new THREE.DirectionalLight( 0xffffff );
     directionalLight.position.set(1, 1, 1).normalize();
     directionalLight.intensity = 1.0;
     scene.add(directionalLight);
-
     directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(-1, 0.6, 0.5).normalize();
     directionalLight.intensity = 0.5;
     scene.add(directionalLight);
-
     directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(-0.3, 0.6, -0.8).normalize();
     directionalLight.intensity = 0.45;
@@ -96,7 +125,7 @@ var createWorld = function(object, mode, width, height) {
 
     var gl = renderer.context;
 
-    if (mode == MODE_LINEAR) {
+    if (mode == MODE_LINEAR || mode == MODE_DEPTH) {
         gl.enable(gl.CULL_FACE);
         gl.cullFace(gl.FRONT);
     } else {

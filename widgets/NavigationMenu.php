@@ -10,6 +10,9 @@ use yii\bootstrap\Widget;
 class NavigationMenu extends Widget {
 
 	public function run() {
+        if (\Yii::$app->getUser()->getIsGuest()) {
+            return '';
+        }
 		$menu = [
 			[ 'label' => 'Главная', 'url' => [ '/' ] ],
 			[ 'label' => 'Модели', 'url' => [ 'model/list' ] ],
@@ -17,9 +20,7 @@ class NavigationMenu extends Widget {
 			[ 'label' => 'Управление', 'url' => [ 'user/list' ] ],
 		];
 		if (\Yii::$app->getUser()->getIsGuest()) {
-			$menu = array_merge($menu, [
-				[ 'label' => 'Вход', 'url' => ['site/login'] ]
-			]);
+			$menu = [];
 		} else {
 			$menu = array_merge($menu, [
 				[ 'label' =>  ' ' . \Yii::$app->getUser()->getIdentity()->{'login'},
@@ -37,7 +38,7 @@ class NavigationMenu extends Widget {
 			'brandLabel' => 'R3D',
 			'brandUrl' => Yii::$app->homeUrl,
 			'options' => [
-				'class' => 'navbar-inverse navbar-fixed-top',
+				'class' => 'navbar-default navbar-fixed-top',
 			],
 		]);
 		print Nav::widget([
